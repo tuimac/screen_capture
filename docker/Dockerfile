@@ -8,7 +8,7 @@ ADD entrypoint.sh /root/entrypoint.sh
 
 RUN apt update && \
     apt upgrade -y && \
-    apt install -y python3 python3-pip git curl && \
+    apt install -y python3 python3-pip git curl vim* && \
     mkdir -p /etc/vim/backup && \
     mkdir -p /etc/vim/undo && \
     curl -L https://raw.githubusercontent.com/tuimac/tools/master/vim/vimrc -o /etc/vim/vimrc && \
@@ -18,4 +18,4 @@ RUN apt update && \
     git config --global user.name "tuimac" && \
     pip3 install opencv-python pyautogui numpy
 
-ENTRYPOINT ["/root/entrypoint.sh"]
+#ENTRYPOINT ["/root/entrypoint.sh"]
