@@ -24,7 +24,7 @@ Parameters:
 
   NameTagValue:
     Type: String
-    Default: windows
+    Default: windows1
 
 Resources:
   # VPC
@@ -169,8 +169,8 @@ Resources:
                 Resource:
                   - "*"
       Tags:
-        - Key: !Ref VPNTagKey
-          Value: !Ref VPNTagValue
+        - Key: !Ref NameTagKey
+          Value: !Ref NameTagValue
 
   GetAMIIdLambda:
     Type: AWS::Lambda::Function
@@ -240,11 +240,12 @@ Resources:
             TagSpecifications:
               - ResourceType: instance
                 Tags:
-                  - Key: NameTagKey
-                    Value: NameTagValue
+                  - Key: !Ref NameTagKey
+                    Value: !Ref NameTagValue
 
   BackupInstanceLambda:
     Type: AWS::Lambda::Function
+    DependsOn: EC2SpotInstance
     Properties:
       Code:
         ZipFile: |
@@ -329,8 +330,8 @@ Resources:
         - Key: !Ref NameTagKey
           Value: !Ref NameTagValue
 
-  BackupVPNInstance:
-    Type: Custom::BackupVPNInstance
+  BackupInstance:
+    Type: Custom::BackupInstance
     Properties:
       ServiceToken: !GetAtt BackupInstanceLambda.Arn
       TagValue: !Ref NameTagValue
